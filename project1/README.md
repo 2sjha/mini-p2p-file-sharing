@@ -1,5 +1,14 @@
 # Project 1
 
+The purpose of this project is to demonstrate file sharing over a TCP socket. We consider 3 processes, namely P1, P2 & P3. The processes P1 and P2 act as file servers for just 1 file F1 and F2 respectively. P3 acts as the client with user input enabled. When P3 starts, it prompts the user to input a file name, and then P3 first requests P1 for that file, If the file is found at P1, then that file is transferred over the TCP socket. If the file is not found at P1, then it requests P2 for the same. If the file is not found at either of the servers then the client outputs an error message.
+The code was meant to work on the UTD CS dept. machines and it has hardcoded machine hostnames for P1 and P2.
+
+## Note for UTDallas students
+
+This was Project 1 for UTD's CS6378 course.
+Please don't use this code as is, because it may be flagged for plagiarism. UTD CS dept. takes plagiarism very seriously.
+Please refer to [UTD's Academic Dishonesty](https://conduct.utdallas.edu/dishonesty) page for more info.
+
 ## F1 and F2 contents.
 
 - F1 = `f1.dat` and F2 = `f2.dat`

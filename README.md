@@ -1,4 +1,30 @@
-# Project 2
+# Mini P2P-File-Sharing application
+
+This is a mini P2P file-sharing application where each peer has an index of files that it wishes to share over the P2P network. This project is supposed to work in UTD CS dept. servers thus it expects all its peers to have similar hostnames. So, the user initiating any peer application must know at least one other existing peer in the P2P network. The peers also have to be assigned an ID which only has 1 function to identify its own index file, because index files are numbered.
+
+Once, the peer starts successfully and is a part of the P2P network, it can initiate a search for any desired filename or an associated keyword. The search occurs over the TCP sockets via messages between peers. If a peer has received a search request from a connected peer, then it will search its own index, if it can satisfy that search it responds with a YES message, otherwise forwards the search to other downstream peers. The search happens similar to a BFS traversal in a graph. Every search has 5 retries with 1, 2, 4, 8, and 16 second(s) timeouts, which also expands the number of hops allowed in each search request. If a reply is received after the timeout, it is ignored. If there are yes replies from at least one peer, then the search initiator creates a direct connection to that specific peer on another port just for file transfer. Peers use port 5050 for peer connections and messaging and they use 5051 for file transfer.
+
+## Salient Features
+
+- This project extensively uses TCP sockets and multithreading.
+- At every peer, there are at least 4 threads working in parallel.
+  - Thread to accept incoming P2P peer connections, which spawns a new peer-message-listening thread for each connected peer (killed after the peer disconnects).
+  - Thread to accept incoming file-sharing requests, which spawns a new file transfer thread for each request (killed after the file transfer completion).
+  - Thread acting as a daemon to monitor and clean up memory for peers who have disconnected.
+  - At least one peer is connected, so one peer-message-listening thread. This thread is responsible for messaging between peers.
+  - Main thread which has user prompts, and initiates the search.
+- This P2P file system has been tested successfully with 15 peers connected with many types of overlay P2P network graphs.
+
+
+## Note for UTDallas students
+
+This was Project 2 for UTD's CS6378 course.
+Please don't use this code as is, because it may be flagged for plagiarism. UTD CS dept. takes plagiarism very seriously.
+Please refer to [UTD's Academic Dishonesty](https://conduct.utdallas.edu/dishonesty) page for more info.
+
+## Project 1
+
+Although Project 2 the main focus of this repository, I've also included Project 1 [here](./project1/).
 
 ## Server Init
 
@@ -22,37 +48,7 @@
 - DISCONNECT sent on 5050 as well. Why? [done]
 - Index update not happening on server. [done]
 
-## Test cases
+## Tests
 
 - Full test after 15 peers conection [done]
 - Search after one peer disconnects leads to a segfault after search complete. [done]
-
-## CS6378 Project 2 Report (sxj220028)
-
-## Project Setup
-
-- `index-files` directory is the main config file for each peer. Every file in `index-files` is of the form `f<c_id>.dat` and each `fi.dat` contains multiple lines of the form `fname:keyword1,keyword2,..`, e.g. `a.txt:apple,adam,arcade`
-- We can use `generate_search_file.py` to create search files a.txt, b.txt and so on which generates these text files from random words picked from a 1000 word list.
-- Or we can use the existing `search-files` directory which contains the same files pre-generated using the same python script.
-- Then we use `create-peers.sh` shell script to create peers with `p2p-server` executable and necessary files
-- This will create separate peer directories in `aosp2` directory, each with `p2p-server` executable and `F_i.dat` index file and it will also read the index file and copy the text files in the index from `search-files` to respective peer directories.
-- The `create-peers.sh` shell script also takes arguments `debug`, `onserver`, `onserverdebug`, `debugonserver`. We may need to update permissions for the shell script using `chmod a+x create-peers.sh`.
-  - `debug` option creates debug executables
-  - `onserver` option moves this `aosp2` directory to `home` directory.
-  - `onserverdebug` and `debugonserver` is just onserver but with debug executables.
-
-<hr>
-
-## Demo
-
-- Go to `aosp2` directory and choose and `peer-<c_id>` ,e.g. `peer-1` subdirectory.
-- To run the first P2P server, use `./p2p-server --id=1`. This will promp if this is the first peer in the P2P system. You need to press `Y` or `y` to start it.
-- From then on, next peers need to started with previously setup peers, use `./p2p-server --id=2 --peers=dc01` (here dc01 is the dcXY id of the first peer) or `./p2p-server --id=3 --peers=dc02,dc03` (here dc02, dc03 is the dcXY id of the 2nd and 3rd peer).
-- These `dcXY` ids in peers list must the the `dcXY` server where already set up peers are running. This peer will randomly select one of the peers in this peer list, and connect to it.
-- We can make any kind of overlay network graph from these peers.
-- Once any peer is up, the peer will prompt the user for 1 options. `0 = peer shutdown, 1 = initiate Simple Search with filename, 2 = initiate Simple Search with keyword, 3 = print peer info`.
-- Once search is initiated, it proceeds as mentioned in the project spec.
-- After search completion, if the search is a success then it will prompt the user for the options where the file can be found.
-- User chooses one of the file options, this peers connects to that server and downloads the file. It also updates it own `F_i` index so that this peer can help in subsequent searches for that file. This index update is permanent, so even if this peer is restarted, it will read the updated `F_i` index and keep the new file as searchable.
-- When User chooses `0` prompt to shut down any server, it will ensure that Network partitioning doesnt happen. As the project spec mentions, It will accumulate all connected peers into a list and then randomly choose one of those peers and sends a message to that chosen peer `DISCONNECT_ADDNBRS_dcXY,dcAB,dcGH` so that chosen peer will establish connections with `dcXY`, `dcAB` and `dcGH`.
-- The executable prints detailed logs & all the messages sent or received over the network, so it is easier to understand what is happening.

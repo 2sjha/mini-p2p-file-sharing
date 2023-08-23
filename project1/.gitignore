@@ -1,6 +1,6 @@
 */a.out
 /.vscode/
 /build/
-project1/client
-project1/server
-project1/client_*.dat
+client
+server
+client_*.dat
