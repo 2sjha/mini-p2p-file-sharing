@@ -6,6 +6,12 @@ Once, the peer starts successfully and is a part of the P2P network, it can init
 
 [Project Report](./REPORT.md)
 
+## Note for UTDallas students
+
+This was Project 2 for UTD's CS6378 course.
+Please don't use this code as is, because it may be flagged for plagiarism. UTD CS dept. takes plagiarism very seriously.
+Please refer to [UTD's Academic Dishonesty](https://conduct.utdallas.edu/dishonesty) page for more info.
+
 ## Salient Features
 
 - This project extensively uses TCP sockets and multithreading.
@@ -16,13 +22,6 @@ Once, the peer starts successfully and is a part of the P2P network, it can init
   - At least one peer is connected, so one peer-message-listening thread. This thread is responsible for messaging between peers.
   - Main thread which has user prompts, and initiates the search.
 - This P2P file system has been tested successfully with 15 peers connected with many types of overlay P2P network graphs.
-
-
-## Note for UTDallas students
-
-This was Project 2 for UTD's CS6378 course.
-Please don't use this code as is, because it may be flagged for plagiarism. UTD CS dept. takes plagiarism very seriously.
-Please refer to [UTD's Academic Dishonesty](https://conduct.utdallas.edu/dishonesty) page for more info.
 
 ## Project 1
 
