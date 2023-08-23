@@ -4,6 +4,8 @@ This is a mini P2P file-sharing application where each peer has an index of file
 
 Once, the peer starts successfully and is a part of the P2P network, it can initiate a search for any desired filename or an associated keyword. The search occurs over the TCP sockets via messages between peers. If a peer has received a search request from a connected peer, then it will search its own index, if it can satisfy that search it responds with a YES message, otherwise forwards the search to other downstream peers. The search happens similar to a BFS traversal in a graph. Every search has 5 retries with 1, 2, 4, 8, and 16 second(s) timeouts, which also expands the number of hops allowed in each search request. If a reply is received after the timeout, it is ignored. If there are yes replies from at least one peer, then the search initiator creates a direct connection to that specific peer on another port just for file transfer. Peers use port 5050 for peer connections and messaging and they use 5051 for file transfer.
 
+[Project Report](./REPORT.md)
+
 ## Salient Features
 
 - This project extensively uses TCP sockets and multithreading.
