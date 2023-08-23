@@ -1,0 +1,4 @@
+p2p-server
+*.o
+/build/
+/aosp2/
