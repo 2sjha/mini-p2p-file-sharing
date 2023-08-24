@@ -1,15 +1,15 @@
 # Mini P2P-File-Sharing application
 
-This is a mini P2P file-sharing application where each peer has an index of files that it wishes to share over the P2P network. This project is supposed to work in UTD CS dept. servers thus it expects all its peers to have similar hostnames. So, the user initiating any peer application must know at least one other existing peer in the P2P network. The peers also have to be assigned an ID which only has 1 function to identify its own index file, because index files are numbered.
+This is a mini P2P file-sharing application where each peer has an index of files that it wishes to share over the P2P network. This project is supposed to work in UTD CS department servers thus it expects all its peers to have similar hostnames. So, the user initiating any peer application must know at least one other existing peer in the P2P network. The peers also have to be assigned an ID which only has 1 function to identify its own index file, because index files are numbered.
 
 Once, the peer starts successfully and is a part of the P2P network, it can initiate a search for any desired filename or an associated keyword. The search occurs over the TCP sockets via messages between peers. If a peer has received a search request from a connected peer, then it will search its own index, if it can satisfy that search it responds with a YES message, otherwise forwards the search to other downstream peers. The search happens similar to a BFS traversal in a graph. Every search has 5 retries with 1, 2, 4, 8, and 16 second(s) timeouts, which also expands the number of hops allowed in each search request. If a reply is received after the timeout, it is ignored. If there are yes replies from at least one peer, then the search initiator creates a direct connection to that specific peer on another port just for file transfer. Peers use port 5050 for peer connections and messaging and they use 5051 for file transfer.
 
 [Project Report](./REPORT.md)
 
-## Note for UTDallas students
+## Note for UT Dallas students
 
 This was Project 2 for UTD's CS6378 course.
-Please don't use this code as is, because it may be flagged for plagiarism. UTD CS dept. takes plagiarism very seriously.
+Please don't use this code as is, because it may be flagged for plagiarism. UTD CS department takes plagiarism very seriously.
 Please refer to [UTD's Academic Dishonesty](https://conduct.utdallas.edu/dishonesty) page for more info.
 
 ## Salient Features
